@@ -14,6 +14,10 @@ import Navigation from './Navigation';
 // #app element on the index.html file.
 //=================
 export default class App extends Component {
+  // componentWillMount() {
+  //   // this.props.loadUserFromToken();
+  // }
+
   render() {
     return (
       <div>

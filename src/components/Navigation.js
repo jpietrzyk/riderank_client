@@ -1,27 +1,26 @@
 /**
  * Import our dependencies
  */
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import React, { Component } from "react";
 
 /**
  * This is our navigation component
  */
-export default class Navigation extends Component {
+export const Navigation = () => (
+  <div className="frame bit-1 navigation_container">
+    <h3 className="bit-40"><Link to="/">Riderank</Link></h3>
+    <ul className="bit-60 nav_menu">
+      <li key={100}>
+        <IndexLink to='/' activeClassName='route--active'>
+          Home
+        </IndexLink>
+      </li>
+      {' · '}
+      <li key={101}><Link to="sign-in">Sign in</Link></li>
+      <li key={102}><Link to="sign-up">Sign up</Link></li>
+    </ul>
+  </div>
+)
 
-  /**
-   * Component render method, required and displays the navigation menu
-   * @returns { ReactElement }
-   */
-  render() {
-    return (
-      <div className="frame bit-1 navigation_container">
-        <h3 className="bit-40"><Link to="/">Riderank</Link></h3>
-        <ul className="bit-60 nav_menu">
-          <li key={100}><Link to="dashboard">Dashboard</Link></li>
-          <li key={101}><Link to="login">Login</Link></li>
-        </ul>
-      </div>
-    );
-  }
-}
+export default Navigation

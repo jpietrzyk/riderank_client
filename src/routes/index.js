@@ -1,24 +1,16 @@
-//====================
-// Import React and the dependencies we need to make react router work
-//====================
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import CoreLayout from '../layouts/CoreLayout'
+import Home from '../components/Home/'
+import SignInRoute from '../components/SignIn/'
+import SignUpRoute from '../components/SignUp/'
 
-//====================
-// Import the different components that will represent the different pages
-// of our website.
-//====================
-import App from '../components/App';
-import DashBoard from '../components/Dashboard';
-import Login from '../components/Login';
+export const createRoutes = (store) => ({
+  path        : '/',
+  component   : CoreLayout,
+  indexRoute  : Home,
+  childRoutes : [
+    SignInRoute(store),
+    SignUpRoute(store)
+  ]
+})
 
-//====================
-// Define our routes
-//====================
-export default (
-  <Route path='/' component={App}>
-    <IndexRoute component={DashBoard} />
-    <Route path='dashboard' component={DashBoard} />
-    <Route path='login' component={Login} />
-  </Route>
-);
+export default createRoutes

@@ -30,8 +30,8 @@ export default (initialState = {}) => {
   const store = createStore(
     rootReducer(),
     initialState,
+    applyMiddleware(thunk),
     composeEnhancers(
-      applyMiddleware(...middleware),
       ...enhancers
     )
   )
@@ -44,8 +44,7 @@ export default (initialState = {}) => {
     module.hot.accept('../reducers', () => {
       const reducers = require('../reducers/index.js').default
       store.replaceReducer(reducers(store.asyncReducers))
-    })
+    });
   }
-
   return store
 }

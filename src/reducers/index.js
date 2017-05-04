@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import PingReducer from './ping_reducer';
-import LocationReducer from './location_reducer'
+import { reducer as formReducer } from 'redux-form'
+
+import LocationReducer from './location_reducer';
+// import PingReducer from './ping_reducer';
+// import UserReducer from './user_reducer';
 
 const rootReducer = (asyncReducers) => {
   return combineReducers({
-    ping: PingReducer,
     location: LocationReducer,
     ...asyncReducers
   })
@@ -14,7 +16,7 @@ const rootReducer = (asyncReducers) => {
   if (Object.hasOwnProperty.call(store.asyncReducers, key)) return
 
   store.asyncReducers[key] = reducer
-  store.replaceReducer(makeRootReducer(store.asyncReducers))
+  store.replaceReducer(rootReducer(store.asyncReducers))
 }
 
 export default rootReducer;

@@ -1,20 +1,13 @@
 /**
  * import dependencies
  */
-import { Provider } from 'react-redux';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import reduxThunk from 'redux-thunk';
-import { Router, browserHistory } from 'react-router';
-import createStore from './store/create_store'
+ import React from 'react'
+ import ReactDOM from 'react-dom'
+ import createStore from './store/createStore'
+ import AppContainer from './containers/AppContainer'
 
 const initialState = window.__INITIAL_STATE__
 const store = createStore(initialState)
-
-/**
- * import reducers
- */
-import reducers from './reducers/index';
 
 /**
  * import stylesheets
@@ -22,11 +15,6 @@ import reducers from './reducers/index';
 require('./assets/stylesheets/base.scss');
 require('./assets/stylesheets/lemonade.scss');
 require('./assets/stylesheets/navigation.scss');
-
-/**
- * import applications routes
- */
-import routes from './routes/index';
 
 // ========================================================
 // Render Setup
@@ -73,11 +61,4 @@ if (__DEV__) {
   }
 }
 
-/**
- * Renders application to the dom
- */
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
-  </Provider>,
-  document.querySelector('#app'));
+render()
