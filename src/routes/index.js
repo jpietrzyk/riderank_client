@@ -1,7 +1,7 @@
 import CoreLayout from '../layouts/CoreLayout'
-import Home from '../components/Home/'
-import SignInRoute from '../components/SignIn/'
-import SignUpRoute from '../components/SignUp/'
+import Home from './Home/'
+import SignInRoute from './SignIn/'
+import SignUpRoute from './SignUp/'
 
 export const createRoutes = (store) => ({
   path        : '/',

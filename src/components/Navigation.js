@@ -3,6 +3,7 @@
  */
 import { Link, IndexLink } from 'react-router';
 import React, { Component } from "react";
+import './navigation.scss'
 
 /**
  * This is our navigation component

@@ -1,8 +1,8 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
-import rootReducer from '../reducers/index'
-import { updateLocation } from '../reducers/location_reducer'
+import makeRootReducer from './reducers'
+import { updateLocation } from './location'
 
 export default (initialState = {}) => {
   // ======================================================
@@ -28,10 +28,10 @@ export default (initialState = {}) => {
   // Store Instantiation and HMR Setup
   // ======================================================
   const store = createStore(
-    rootReducer(),
+    makeRootReducer(),
     initialState,
-    applyMiddleware(thunk),
     composeEnhancers(
+      applyMiddleware(...middleware),
       ...enhancers
     )
   )
@@ -41,10 +41,11 @@ export default (initialState = {}) => {
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
 
   if (module.hot) {
-    module.hot.accept('../reducers', () => {
-      const reducers = require('../reducers/index.js').default
+    module.hot.accept('./reducers', () => {
+      const reducers = require('./reducers').default
       store.replaceReducer(reducers(store.asyncReducers))
-    });
+    })
   }
+
   return store
 }

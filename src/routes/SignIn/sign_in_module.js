@@ -31,12 +31,12 @@ export const signInUser = (values) => {
       ax.post(`${api.server_url}/oauth/token`, values)
       .then(function(result){
         dispatch({
-          type    : SIGNIN_USER_SUCCESS,
+          type    : SIGNIN_USER,
           payload : result
         })
       }).catch(function(error){
         dispatch({
-          type    : SIGNIN_USER_FAILURE,
+          type    : SIGNIN_USER,
           payload : error
         })
       })
@@ -53,7 +53,9 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SIGNIN_USER] : (state, action) => action.payload
+  [SIGNIN_USER] : (state, action) => action.payload,
+  [SIGNIN_USER_SUCCESS] : (state, action) => action.payload,
+  [SIGNIN_USER_FAILURE] : (state, action) => action.payload
 }
 
 // ------------------------------------

@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 
-import LocationReducer from './location_reducer';
-// import PingReducer from './ping_reducer';
-// import UserReducer from './user_reducer';
+import LocationReducer from './location';
 
 const rootReducer = (asyncReducers) => {
   return combineReducers({
