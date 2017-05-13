@@ -1,10 +1,11 @@
+import { checkHttpStatus, parseJSON } from '../../utils';
 import axios from 'axios';
-import { SubmissionError } from 'redux-form';
+import { browserHistory, Router } from 'react-router'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SIGNIN_USER = 'SIGNIN_USER'
+export const SIGNIN_USER_REQUEST = 'SIGNIN_USER_REQUEST'
 export const SIGNIN_USER_SUCCESS = 'SIGNIN_USER_SUCCESS'
 export const SIGNIN_USER_FAILURE = 'SIGNIN_USER_FAILURE'
 
@@ -24,24 +25,59 @@ var ax = axios.create({
 
 ax.defaults.data['client_id'] = api.app_key;
 
+export const signInUserSuccess = (dispatch, token) => {
+  localStorage.setItem('token', token);
+  browserHistory.push('/');
+  return {
+    type: SIGNIN_USER_SUCCESS,
+    payload: {
+      userName: 'jacek',
+      token: token,
+      signedIn: true
+    }
+  }
+}
+
+export const signInUserFailure = (error) => {
+  localStorage.removeItem('token');
+  return {
+    type: SIGNIN_USER_FAILURE,
+    payload: {
+      status: error.response.status,
+      statusText: error.response.statusText
+    }
+  }
+}
+
+export const signInUserRequest = () => {
+  return {
+    type: SIGNIN_USER_REQUEST,
+    payload: {}
+  }
+}
+
 export const signInUser = (values) => {
   values['grant_type'] = 'password';
   return (dispatch, getState) => {
-    return new Promise((resolve) => {
+    dispatch(signInUserRequest());
+    return(
       ax.post(`${api.server_url}/oauth/token`, values)
       .then(function(result){
-        dispatch({
-          type    : SIGNIN_USER,
-          payload : result
-        })
-      }).catch(function(error){
-        dispatch({
-          type    : SIGNIN_USER,
-          payload : error
-        })
+        try {
+            dispatch(signInUserSuccess(result.data.access_token));
+        } catch (e) {
+            dispatch(signInUserFailure({
+              response: {
+                status: 403,
+                statusText: e
+              }
+            }));
+        }
       })
-    })
-    resolve()
+      .catch(e => {
+         dispatch(signInUserFailure(e));
+       })
+    );
   }
 }
 
@@ -53,7 +89,7 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SIGNIN_USER] : (state, action) => action.payload,
+  [SIGNIN_USER_REQUEST] : (state, action) => action.payload,
   [SIGNIN_USER_SUCCESS] : (state, action) => action.payload,
   [SIGNIN_USER_FAILURE] : (state, action) => action.payload
 }
@@ -61,7 +97,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {}
+const initialState = {user: null, token: null, signedIn: false};
 export default function signInReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

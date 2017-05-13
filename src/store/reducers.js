@@ -6,6 +6,7 @@ import LocationReducer from './location';
 const rootReducer = (asyncReducers) => {
   return combineReducers({
     location: LocationReducer,
+    form: formReducer,
     ...asyncReducers
   })
  }
